@@ -188,6 +188,20 @@ const ProjectDashboard = () => {
             </span>
             <span className="badge badge-blue">{projectData.status || 'Active'}</span>
           </div>
+          {activeTab === 'backlog' && (
+            <button className="btn-primary" style={{ margin: 0, width: 'auto', padding: '8px 16px', fontSize: '0.85rem' }} onClick={() => setIsCreatingTask(!isCreatingTask)}>
+              {isCreatingTask ? '✕ Cancel' : '+ Create Issue'}
+            </button>
+          )}
+          {activeTab === 'sprints' && (
+            <button
+              onClick={() => { setIsCreatingSprint(v => !v); setSelectedSprintId(null); }}
+              className="btn-primary"
+              style={{ margin: 0, width: 'auto', padding: '8px 16px', fontSize: '0.85rem' }}
+            >
+              {isCreatingSprint ? '✕ Cancel' : '+ New Sprint'}
+            </button>
+          )}
         </div>
 
         <div className="main-area">
@@ -242,13 +256,7 @@ const ProjectDashboard = () => {
 
           {/* Backlog Tab */}
           {activeTab === 'backlog' && (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                <h3>Product Backlog</h3>
-                <button className="btn-primary" style={{ margin: 0, width: 'auto' }} onClick={() => setIsCreatingTask(!isCreatingTask)}>
-                  {isCreatingTask ? 'Cancel' : '+ Create Issue'}
-                </button>
-              </div>
+            <div style={{ paddingTop: '8px' }}>
 
               {isCreatingTask && (
                 <form onSubmit={handleCreateTask} style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
@@ -342,21 +350,12 @@ const ProjectDashboard = () => {
             };
 
             return (
-              <div>
+              <div style={{ paddingTop: '8px' }}>
                 {/* ── Page header ── */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                  <div>
-                    <h3 style={{ margin: 0 }}>Sprint Planner</h3>
-                    <p style={{ margin: '4px 0 0', color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                      {allSprints.length} sprint{allSprints.length !== 1 ? 's' : ''} · {backlogTasks.length} unassigned task{backlogTasks.length !== 1 ? 's' : ''} in backlog
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => { setIsCreatingSprint(v => !v); setSelectedSprintId(null); }}
-                    style={{ padding: '9px 20px', background: isCreatingSprint ? 'rgba(239,68,68,0.12)' : 'rgba(99,102,241,0.2)', border: `1px solid ${isCreatingSprint ? 'rgba(239,68,68,0.35)' : 'rgba(99,102,241,0.4)'}`, color: isCreatingSprint ? '#f87171' : '#a5b4fc', borderRadius: '10px', cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem' }}
-                  >
-                    {isCreatingSprint ? '✕ Cancel' : '+ New Sprint'}
-                  </button>
+                <div style={{ marginBottom: '20px' }}>
+                  <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+                    {allSprints.length} sprint{allSprints.length !== 1 ? 's' : ''} · {backlogTasks.length} unassigned task{backlogTasks.length !== 1 ? 's' : ''} in backlog
+                  </p>
                 </div>
 
                 {/* ── Inline create form ── */}

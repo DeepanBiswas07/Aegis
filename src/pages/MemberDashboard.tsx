@@ -162,9 +162,17 @@ const MemberDashboard = () => {
         <div className="topbar">
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span className="topbar-title">
-              {navItems.find(n => n.id === activeTab)?.label}
+              {navItems.find(n => n.id === activeTab)?.label || projects?.find((p: any) => `project-${p._id}` === activeTab)?.name || 'Workspace'}
             </span>
-            <span className="badge badge-purple">Team Member</span>
+            {activeTab.startsWith('project-') ? (
+              <span className={`badge ${statusColor[projects?.find((p: any) => `project-${p._id}` === activeTab)?.status] || 'badge-blue'}`}>
+                {projects?.find((p: any) => `project-${p._id}` === activeTab)?.status || 'Active'}
+              </span>
+            ) : activeTab === 'projects' ? (
+              <span className="badge badge-blue" style={{ marginLeft: '4px' }}>{projects?.length || 0} assigned</span>
+            ) : (
+              <span className="badge badge-purple">Team Member</span>
+            )}
           </div>
         </div>
 
@@ -173,12 +181,9 @@ const MemberDashboard = () => {
 
           {/* ─── My Work Tab ─── */}
           {activeTab === 'my-work' && (
-            <div>
-              <div className="page-header" style={{ marginBottom: '28px' }}>
-                <div>
-                  <h1 className="page-title">My Work</h1>
-                  <p style={{ color: 'var(--text-2)', marginTop: '4px' }}>Tasks assigned to you across all projects.</p>
-                </div>
+            <div style={{ paddingTop: '8px' }}>
+              <div style={{ marginBottom: '20px' }}>
+                <p style={{ color: 'var(--text-2)' }}>Tasks assigned to you across all projects.</p>
               </div>
 
               {tasks?.length > 0 ? (
@@ -209,7 +214,7 @@ const MemberDashboard = () => {
 
           {/* ─── Project-Specific Tab ─── */}
           {activeTab.startsWith('project-') && (
-            <div>
+            <div style={{ paddingTop: '8px' }}>
               {(() => {
                 const projectId = activeTab.replace('project-', '');
                 const project = projects.find((p: any) => p._id === projectId);
@@ -219,13 +224,9 @@ const MemberDashboard = () => {
 
                 return (
                   <>
-                    <div className="page-header" style={{ marginBottom: '28px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div className="page-header" style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                       <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <h1 className="page-title">{project?.name}</h1>
-                          <span className={`badge ${statusColor[project?.status] || 'badge-blue'}`}>{project?.status || 'Active'}</span>
-                        </div>
-                        <p style={{ color: 'var(--text-2)', marginTop: '6px', fontSize: '.9rem' }}>{project?.description || 'No description provided.'}</p>
+                        <p style={{ color: 'var(--text-2)', fontSize: '.95rem' }}>{project?.description || 'No description provided.'}</p>
                       </div>
                       <div style={{ textAlign: 'right' }}>
                         <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--primary)' }}>{progress}%</div>
@@ -244,10 +245,12 @@ const MemberDashboard = () => {
                       </div>
                       <div className="card" style={{ padding: '20px' }}>
                         <p style={{ fontSize: '.8rem', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Timeline</p>
-                        <p style={{ fontSize: '.95rem', fontWeight: 500, marginTop: '8px' }}>
-                          {project?.startDate ? new Date(project.startDate).toLocaleDateString() : '-'} <br/> 
-                          <span style={{ color: 'var(--text-3)', fontSize: '.8rem' }}>to</span> <br/>
-                          {project?.targetEndDate ? new Date(project.targetEndDate).toLocaleDateString() : '-'}
+                        <p style={{ fontSize: '.88rem', fontWeight: 500, marginTop: '8px', lineHeight: '1.4' }}>
+                          {project?.startDate ? new Date(project.startDate).toLocaleDateString(undefined, { dateStyle: 'medium' }) : 'Ongoing'}
+                          <br/>
+                          <span style={{ color: 'var(--text-3)', fontSize: '.8rem' }}>to</span>
+                          <br/>
+                          {project?.targetEndDate ? new Date(project.targetEndDate).toLocaleDateString(undefined, { dateStyle: 'medium' }) : 'Present'}
                         </p>
                       </div>
                     </div>
@@ -278,12 +281,9 @@ const MemberDashboard = () => {
 
           {/* ─── Sprints Tab ─── */}
           {activeTab === 'sprints' && (
-            <div>
-              <div className="page-header" style={{ marginBottom: '28px' }}>
-                <div>
-                  <h1 className="page-title">My Sprints</h1>
-                  <p style={{ color: 'var(--text-2)', marginTop: '4px' }}>Active and planned sprints across your projects.</p>
-                </div>
+            <div style={{ paddingTop: '8px' }}>
+              <div style={{ marginBottom: '20px' }}>
+                <p style={{ color: 'var(--text-2)' }}>Active and planned sprints across your projects.</p>
               </div>
 
               {data.sprints?.length > 0 ? (
@@ -312,7 +312,7 @@ const MemberDashboard = () => {
                             {s.goal && <p style={{ margin: 0, fontSize: '0.88rem', color: 'var(--text-2)' }}>{s.goal}</p>}
                             {(s.startDate || s.endDate) && (
                               <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: 'var(--text-3)' }}>
-                                {s.startDate ? new Date(s.startDate).toLocaleDateString() : '?'} → {s.endDate ? new Date(s.endDate).toLocaleDateString() : '?'}
+                                {s.startDate ? new Date(s.startDate).toLocaleDateString(undefined, { dateStyle: 'medium' }) : 'Ongoing'} — {s.endDate ? new Date(s.endDate).toLocaleDateString(undefined, { dateStyle: 'medium' }) : 'Present'}
                               </p>
                             )}
                           </div>
@@ -367,13 +367,8 @@ const MemberDashboard = () => {
           )}
 
           {/* ─── Projects Tab ─── */}
-
           {activeTab === 'projects' && (
-            <div>
-              <div className="page-header">
-                <h1 className="page-title">My Projects</h1>
-                <span className="badge badge-blue">{projects?.length || 0} assigned</span>
-              </div>
+            <div style={{ paddingTop: '8px' }}>
 
               <div className="card">
                 {projects?.length > 0 ? (

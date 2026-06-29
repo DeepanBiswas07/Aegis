@@ -10,6 +10,14 @@ const statusColor: Record<string, string> = {
   accepted:  'badge-green',
 };
 
+const formatTimeline = (start: string, end: string) => {
+  if (!start && !end) return 'Not scheduled';
+  const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' };
+  const startStr = start ? new Date(start).toLocaleDateString('en-US', options) : 'Ongoing';
+  const endStr = end ? new Date(end).toLocaleDateString('en-US', options) : 'Present';
+  return `${startStr} — ${endStr}`;
+};
+
 const Organization = () => {
   const navigate = useNavigate();
   const orgLocal = JSON.parse(localStorage.getItem('org') || 'null');
@@ -170,10 +178,22 @@ const Organization = () => {
         <div className="topbar">
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span className="topbar-title">
-              {navItems.find(n => n.id === activeTab)?.label || 'Dashboard'}
+              {activeTab === 'members' ? 'Team Members' : (navItems.find(n => n.id === activeTab)?.label || 'Dashboard')}
             </span>
             <span className="badge badge-blue">{orgData.organizationName}</span>
+            {activeTab === 'members' && (
+              <span className="badge badge-gray" style={{ marginLeft: '4px' }}>{totalMembers} total</span>
+            )}
           </div>
+          {activeTab === 'projects' && (
+            <button
+              className="btn-primary"
+              style={{ margin: 0, width: 'auto', padding: '8px 16px', fontSize: '0.85rem' }}
+              onClick={() => setIsCreatingProject(!isCreatingProject)}
+            >
+              {isCreatingProject ? '✕ Cancel' : '+ New Project'}
+            </button>
+          )}
         </div>
 
         {/* Content */}
@@ -229,7 +249,7 @@ const Organization = () => {
                             {p.description && <p style={{ color: 'var(--text-2)', fontSize: '.8rem', marginTop: '4px' }}>{p.description}</p>}
                           </td>
                           <td style={{ color: 'var(--text-2)', fontSize: '.85rem' }}>
-                            {p.startDate ? new Date(p.startDate).toLocaleDateString() : '-'} to {p.targetEndDate ? new Date(p.targetEndDate).toLocaleDateString() : '-'}
+                            {formatTimeline(p.startDate, p.targetEndDate)}
                           </td>
                           <td>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -258,11 +278,7 @@ const Organization = () => {
 
           {/* ─── Members Tab ─── */}
           {activeTab === 'members' && (
-            <div>
-              <div className="page-header">
-                <h1 className="page-title">Team Members</h1>
-                <span className="badge badge-blue">{totalMembers} total</span>
-              </div>
+            <div style={{ paddingTop: '8px' }}>
 
               {/* Invite form */}
               <div className="card" style={{ marginBottom: '20px' }}>
@@ -334,17 +350,7 @@ const Organization = () => {
 
           {/* ─── Projects Tab ─── */}
           {activeTab === 'projects' && (
-            <div>
-              <div className="page-header">
-                <h1 className="page-title">Projects</h1>
-                <button
-                  className="btn-primary"
-                  style={{ margin: 0, width: 'auto', padding: '10px 20px' }}
-                  onClick={() => setIsCreatingProject(!isCreatingProject)}
-                >
-                  {isCreatingProject ? '✕ Cancel' : '+ New Project'}
-                </button>
-              </div>
+            <div style={{ paddingTop: '8px' }}>
 
               {/* Create form */}
               {isCreatingProject && (
@@ -444,7 +450,7 @@ const Organization = () => {
                             {p.description && <p style={{ color: 'var(--text-2)', fontSize: '.78rem', marginTop: '2px' }}>{p.description}</p>}
                           </td>
                           <td style={{ color: 'var(--text-2)', fontSize: '.85rem' }}>
-                            {p.startDate ? new Date(p.startDate).toLocaleDateString() : '-'} to {p.targetEndDate ? new Date(p.targetEndDate).toLocaleDateString() : '-'}
+                            {formatTimeline(p.startDate, p.targetEndDate)}
                           </td>
                           <td><span className={`badge ${statusColor[p.status] || 'badge-gray'}`}>{p.status || 'Active'}</span></td>
                           <td style={{ color: 'var(--text-2)' }}>{p.assignedMembers?.length || 0}</td>
