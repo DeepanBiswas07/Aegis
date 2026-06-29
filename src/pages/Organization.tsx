@@ -301,7 +301,7 @@ const Organization = () => {
                     <label className="input-label">Role</label>
                     <input className="input-field" placeholder="e.g. Developer" value={newMemberRole} onChange={e => setNewMemberRole(e.target.value)} required />
                   </div>
-                  <button type="submit" className="btn-primary" style={{ margin: 0, padding: '13px' }}>Send Invite</button>
+                  <button type="submit" className="btn-primary" style={{ margin: 0 }}>Send Invite</button>
                 </form>
               </div>
 

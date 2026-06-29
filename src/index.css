@@ -104,22 +104,19 @@ body {
 
 /* ─── Buttons ────────────────────────────────────────────────────────────── */
 .btn-primary {
-  padding: 10px 16px;
-  background: var(--primary);
-  color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 20px;
+  background: #ffffff;
+  color: #090a0f; border: 1px solid transparent;
   border-radius: var(--radius-sm);
-  font-family: inherit; font-size: 0.875rem; font-weight: 600;
-  cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit; font-size: 0.875rem; font-weight: 700;
+  cursor: pointer; transition: all 0.15s ease;
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
 }
 .btn-primary:hover {
-  background: var(--primary-hover);
-  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
-  transform: translateY(-1px);
+  background: #f1f5f9;
 }
 .btn-primary:active {
-  transform: translateY(0) scale(0.98);
+  transform: scale(0.98);
 }
 
 .btn-secondary {
@@ -169,10 +166,9 @@ body {
 }
 .sidebar-logo-icon {
   width: 28px; height: 28px; border-radius: 6px;
-  background: var(--primary); color: #ffffff;
+  background: #ffffff; color: #000000;
   display: flex; align-items: center; justify-content: center;
   font-weight: 800; font-size: 0.9rem;
-  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
 }
 .sidebar-logo-name {
   font-family: 'Outfit', sans-serif;
@@ -200,18 +196,8 @@ body {
   padding-left: 16px;
 }
 .sidebar-item.active {
-  background: rgba(99, 102, 241, 0.08); color: #f8fafc;
+  background: rgba(255, 255, 255, 0.07); color: var(--text-primary);
   font-weight: 700;
-}
-.sidebar-item.active::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 3px;
-  background: var(--primary);
-  border-radius: 0 4px 4px 0;
 }
 
 .sidebar-footer {
@@ -356,9 +342,7 @@ body {
 }
 .progress-bar-fill {
   height: 100%; border-radius: 99px;
-  background: linear-gradient(90deg, var(--primary) 0%, #818cf8 100%);
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+  background: #ffffff; transition: width 0.4s ease;
 }
 
 /* ─── Modal ──────────────────────────────────────────────────────────────── */
