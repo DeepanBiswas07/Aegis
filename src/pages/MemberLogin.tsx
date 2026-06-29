@@ -114,7 +114,7 @@ const MemberLogin = () => {
                 id="member-email"
                 className="input-field"
                 type="email"
-                placeholder="you@company.com"
+                placeholder="deepan@company.com"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required

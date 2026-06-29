@@ -291,11 +291,11 @@ const Organization = () => {
                 <form onSubmit={handleAddMember} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px', alignItems: 'end' }}>
                   <div className="input-group">
                     <label className="input-label">Full Name</label>
-                    <input className="input-field" placeholder="Jane Smith" value={newMemberName} onChange={e => setNewMemberName(e.target.value)} required />
+                    <input className="input-field" placeholder="Deepan" value={newMemberName} onChange={e => setNewMemberName(e.target.value)} required />
                   </div>
                   <div className="input-group">
                     <label className="input-label">Email</label>
-                    <input className="input-field" type="email" placeholder="jane@company.com" value={newMemberEmail} onChange={e => setNewMemberEmail(e.target.value)} required />
+                    <input className="input-field" type="email" placeholder="deepan@company.com" value={newMemberEmail} onChange={e => setNewMemberEmail(e.target.value)} required />
                   </div>
                   <div className="input-group">
                     <label className="input-label">Role</label>

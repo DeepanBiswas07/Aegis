@@ -51,7 +51,7 @@ const Register = () => {
             <label className="input-label">Organization Name</label>
             <input
               className="input-field"
-              placeholder="Iffort"
+              placeholder="company"
               value={form.organizationName}
               onChange={e => setForm({ ...form, organizationName: e.target.value })}
               required
